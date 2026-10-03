@@ -13,6 +13,8 @@
   <img src="docs/demir-ilerleme.jpg" width="200" alt="İlerleme">
 </p>
 
+<sub>Ekran görüntüleri uygulamaya yüklenen örnek antrenman ve kilo verisiyle alınmıştır.</sub>
+
 ## Özellikler
 
 - 🧭 **Kurulum sihirbazı:** Hedef (kilo alma / verme / koruma), antrenman programı, haftalık plan ve ekipman seçilir; uyarılar, öneriler ve grafikteki ideal bant buna göre şekillenir
