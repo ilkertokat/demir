@@ -1,0 +1,7 @@
+* text=auto eol=lf
+*.png binary
+*.jpg binary
+*.apk binary
+*.ttf binary
+*.wav binary
+*.ogg binary

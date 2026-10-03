@@ -1,0 +1,9 @@
+node_modules/
+dist/
+android/out/
+*.apk
+*.idsig
+# kişisel profil dosyaları (sağlık verisi) — yayınlanmaz
+ilker-baslangic.json
+annem.json
+OKUBENI.md

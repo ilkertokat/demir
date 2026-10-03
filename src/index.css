@@ -1,0 +1,127 @@
+@import 'tailwindcss';
+
+/* Fontlar node_modules'ten paketleniyor — internet gerekmez, çevrimdışı çalışır.
+   Oswald: sıkışık/atletik, rakamlar için (skorboard hissi)
+   Manrope: gövde metni, küçük puntoda okunaklı */
+@import '@fontsource-variable/oswald/index.css';
+@import '@fontsource-variable/manrope/index.css';
+
+@theme {
+  /* ---- Renk paleti: "erimiş demir" — koyu kömür + turuncu ---- */
+  --color-ink: #08090a; /* en arka zemin */
+  --color-coal: #0e0f11; /* sayfa zemini */
+  --color-slab: #16181b; /* kart */
+  --color-slab2: #1e2126; /* yükseltilmiş kart / input */
+  --color-line: #292d33; /* çizgi */
+  --color-line2: #3a4048; /* belirgin çizgi */
+  --color-bone: #eceef1; /* ana metin */
+  --color-ash: #969ca6; /* ikincil metin */
+  --color-dim: #656b74; /* soluk metin */
+
+  --color-flame: #ff4a17; /* ana vurgu — aksiyon, aktif durum */
+  --color-flame2: #ff7a45; /* açık turuncu */
+  --color-ember: #7a2408; /* koyu turuncu zemin */
+  --color-gold: #f5c518; /* kişisel rekor / kutlama */
+  --color-jade: #45d483; /* tamamlandı / yeşil tik */
+  --color-blood: #ff4747; /* tehlike / silme */
+  --color-steel: #5aa9e6; /* veri / grafik ikinci seri */
+
+  --font-display: 'Oswald Variable', 'Oswald', system-ui, sans-serif;
+  --font-sans: 'Manrope Variable', 'Manrope', system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    background: var(--color-ink);
+    -webkit-text-size-adjust: 100%;
+    /* iOS'ta lastik bant efekti kapalı, uygulama gibi dursun */
+    overscroll-behavior-y: none;
+  }
+  body {
+    margin: 0;
+    background: var(--color-coal);
+    color: var(--color-bone);
+    font-family: var(--font-sans);
+    font-weight: 450;
+    -webkit-font-smoothing: antialiased;
+    overscroll-behavior-y: none;
+    /* Çift dokunma ile zoom kapalı — spor salonunda kazara zoom olmasın */
+    touch-action: manipulation;
+    /* Güvenlik ağı: hiçbir bileşen sayfayı yana kaydıramasın */
+    overflow-x: hidden;
+  }
+  /* Rakamlar hep aynı genişlikte olsun; sayaç titremesin */
+  h1, h2, h3, .num {
+    font-family: var(--font-display);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.01em;
+  }
+  /* Sayı inputlarındaki artır/azalt oklarını kaldır */
+  input[type='number']::-webkit-outer-spin-button,
+  input[type='number']::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  input[type='number'] { -moz-appearance: textfield; }
+  button { -webkit-tap-highlight-color: transparent; }
+  ::selection { background: var(--color-flame); color: #fff; }
+}
+
+@layer utilities {
+  /* Telefonun alt çubuğu / çentiği için güvenli alan */
+  .pb-safe { padding-bottom: max(env(safe-area-inset-bottom), 0.5rem); }
+  .pt-safe { padding-top: max(env(safe-area-inset-top), 0.5rem); }
+  .h-safe-nav { height: calc(4.25rem + max(env(safe-area-inset-bottom), 0.5rem)); }
+
+  /* İnce zımpara dokusu — düz siyahın "boş" durmasını engeller */
+  .grain::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    pointer-events: none;
+    opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* Ekipman etiketi gibi eğik tarama deseni */
+  .hatch {
+    background-image: repeating-linear-gradient(
+      -45deg,
+      rgba(255, 74, 23, 0.09) 0 2px,
+      transparent 2px 7px
+    );
+  }
+
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+  /* Girişte kademeli açılma */
+  .rise { animation: rise 0.34s cubic-bezier(0.2, 0.9, 0.25, 1) both; }
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(9px); }
+    to { opacity: 1; transform: none; }
+  }
+  /* Set tamamlanınca kısa nabız */
+  .pop { animation: pop 0.34s cubic-bezier(0.3, 1.5, 0.5, 1); }
+  @keyframes pop {
+    0% { transform: scale(1); }
+    45% { transform: scale(1.07); }
+    100% { transform: scale(1); }
+  }
+  /* Rekor kutlaması */
+  .flare { animation: flare 1.1s ease-out; }
+  @keyframes flare {
+    0% { box-shadow: 0 0 0 0 rgba(245, 197, 24, 0.55); }
+    100% { box-shadow: 0 0 0 26px rgba(245, 197, 24, 0); }
+  }
+  /* Dinlenme sayacı bittiğinde ekran kenarı yanıp sönsün */
+  .alarm { animation: alarm 0.55s ease-in-out 4; }
+  @keyframes alarm {
+    0%, 100% { background-color: transparent; }
+    50% { background-color: rgba(255, 74, 23, 0.16); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .rise, .pop, .flare, .alarm { animation: none !important; }
+  }
+}
