@@ -75,10 +75,12 @@ const sure = (sn) => {
   const s = Math.floor(sn % 60)
   return `${m}:${String(s).padStart(2, '0')}`
 }
-/** Saniye → "1 sa 12 dk" / "42 dk" */
+/** Saniye → "1 sa 12 dk" / "42 dk". Önce toplam dakikaya yuvarlanır;
+    böylece 3599 sn "60 dk" değil "1 sa 0 dk", 7170 sn "1 sa 60 dk" değil "2 sa 0 dk" olur */
 const sureUzun = (sn) => {
-  const sa = Math.floor(sn / 3600)
-  const dk = Math.round((sn % 3600) / 60)
+  const top = Math.round(Math.max(0, Number(sn) || 0) / 60)
+  const sa = Math.floor(top / 60)
+  const dk = top % 60
   return sa > 0 ? `${sa} sa ${dk} dk` : `${dk} dk`
 }
 const clamp = (n, a, b) => Math.min(b, Math.max(a, n))
